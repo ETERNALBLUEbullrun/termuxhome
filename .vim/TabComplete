@@ -1,0 +1,17 @@
+function! TabComplete(direction)
+	let oldIsk=&isk
+	set isk+=(,),,
+	let col=col('.')-1
+	if "tab" ==a:direction
+		return "\<tab>"
+	elseif !pumvisible() && (!col || getline('.')[col - 1] !~ '\k')
+		return "\<tab>"
+	elseif "backward" ==a:direction
+		return "\<c-p>"
+	elseif "forward" ==a:direction
+		return "\<c-n>"
+	elseif exists('&omnifunc') && &omnifunc != ''
+		return "\<c-x>\<c-o>"
+	endif
+	set &isk=oldIsk
+endfunction
