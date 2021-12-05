@@ -1,0 +1,30 @@
+#!/bin/sh
+test -d /sdcard/ || termux-setup-storage
+DIRS="home/\
+  usr/$InstalledRootfs/\
+"
+TAR_OUT="/sdcard/termux-home.tar.gz"
+FLAGS="--verify"
+BASE_DIR="/data/data/com.termux/files"
+EXCLUDE="--exclude=home/.ssh\
+ --exclude=home/.bash_history\
+ --exclude=home/.python_history\
+ --exclude=home/.lesshst\
+ --exclude=home/.viminfo\
+ --exclude=home/.vim/.netrwhist\
+ --exclude=home/.ctags\
+ --exclude=home/storage/\
+ --exclude=home/.cache/\
+"
+#home/Trash/
+if [ "--usr" = "$1" ]; then
+	DIRS="./usr"
+	TAR_OUT="/sdcard/termux-usr.tar.gz"
+	EXCLUDE="--exclude=$InstalledRootfs"
+fi
+if [ "--extract" = "$1" ]; then
+	tar -zxf ${TAR_OUT} -C $BASE_DIR --preserve-permissions #--recursive-unlink
+else
+	tar -zcf ${TAR_OUT} -C $BASE_DIR $EXCLUDE $DIRS
+fi
+
