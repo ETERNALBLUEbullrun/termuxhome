@@ -10,6 +10,8 @@ pkg install apt-file &&
 . gittest/bin/gitAlias.sh
 apt-get install openssh gh
 cp ~/../usr/etc/ssh/ssh_host_ed25519_key ~/.ssh/id_ed25519
+cp ~/../usr/etc/ssh/ssh_host_ed25519_key.pub ~/.ssh/id_ed25519.pub
+ssh-keygen -lf ~/.ssh/id_ed25519.pub -E sha256 #GitHub converts fingerprint to Sha256 hash
 apt-get install proot-distro && (
 proot-distro install debian >> install_debian.log &&
 cat .vimrc >> $DebianRoot/.vimrc
